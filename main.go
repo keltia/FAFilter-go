@@ -48,6 +48,7 @@ func processFile(file string, out *os.File) error {
 		if good :=  record.checkRecord(); good {
 			if _, err = fmt.Fprintf(out, "%s\n", line); err != nil {
 				fmt.Fprintf(os.Stderr, "Error writing into %s: %v", fFileOut, err)
+				panic(err)
 			}
 		} else {
 			recordStats.TotalSkipped++
