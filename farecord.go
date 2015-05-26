@@ -7,11 +7,6 @@ import (
 	"os"
 )
 
-// Generic regex-based check
-func checkRegex(value string, regex regexp.Regexp) bool {
-	return regex.Match([]byte(value))
-}
-
 // Implements main checks
 //
 // Having several parameters specified on the CLI means AND, not OR because
@@ -50,7 +45,7 @@ func (line *FArecord) checkRecord() bool {
 
 		// Check for -a
 		if fAircraftId != "" {
-			cont = checkRegex(line.Ident, rAircraftId)
+			cont, _ := regexp.MatchString(fAircraftId, line.Ident)
 			if cont == false {
 				recordStats.SkippedAircraftId++
 				return cont
@@ -59,7 +54,7 @@ func (line *FArecord) checkRecord() bool {
 
 		// Check for -x
 		if fHexid != "" {
-			cont = checkRegex(line.Hexid, rHexid)
+			cont, _ := regexp.MatchString(fHexid, line.Hexid)
 			if cont == false {
 				recordStats.SkippedHexid++
 				return cont
@@ -68,7 +63,7 @@ func (line *FArecord) checkRecord() bool {
 
 		// Check for -t
 		if fUpdateType != "" {
-			cont = checkRegex(line.UpdateType, rUpdateType)
+			cont, _ := regexp.MatchString(fUpdateType, line.UpdateType)
 			if cont == false {
 				recordStats.SkippedUpdateType++
 				return false
