@@ -18,9 +18,9 @@ var (
 	fFileOut	string
  	fAircraftId	string
 	fHexid 		string
+	fUpdateType	string
 	rAircraftId	regexp.Regexp
 	rHexid		regexp.Regexp
-	fUpdateType	string
 	rUpdateType	regexp.Regexp
 
 	fVerbose	bool
