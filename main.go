@@ -19,8 +19,7 @@ import (
 var (
 	timeStats	TimeStats
 	recordStats	RecordStats
-	goodFileStats	int
-	badFileStats	int
+	readFiles	int
 
 	fhOut	*os.File
 )
@@ -42,6 +41,7 @@ func processFile(file string, out *os.File) error {
 			return err
 		}
 
+		recordStats.TotalRead++
 		// handover to our checkRecord
 		if good :=  record.checkRecord(); good {
 			goodFileStats++
@@ -55,6 +55,29 @@ func processFile(file string, out *os.File) error {
 	}
 
 	return err
+}
+
+//Print our stats
+func printStats() {
+	fmt.Fprintf(os.Stderr, "\n%d files read\n", readFiles)
+	fmt.Fprintf(os.Stderr, "Lines read: %d\n", recordStats.TotalRead)
+	fmt.Fprintf(os.Stderr, "Lines skipped: %d\n", recordStats.TotalSkipped)
+
+	fmt.Fprintf(os.Stderr, "\nTime-related stats:\n")
+	fmt.Fprintf(os.Stderr, "  First seen: %s\n", timeStats.FirstSeen.String())
+	fmt.Fprintf(os.Stderr, "  Last seen: %s\n", timeStats.LastSeen.String())
+	fmt.Fprintf(os.Stderr, "  First selected: %s\n", timeStats.FirstSelected.String())
+	fmt.Fprintf(os.Stderr, "  Last selected: %s\n", timeStats.LastSelected.String())
+
+	fmt.Fprintf(os.Stderr, "  Lowest seen: %s\n", timeStats.Lowest.String())
+	fmt.Fprintf(os.Stderr, "  Highest seen: %s\n", timeStats.Highest.String())
+
+	fmt.Fprintf(os.Stderr, "\nRecord-related stats:\n")
+	fmt.Fprintf(os.Stderr, "  Skipped AircraftId: %d\n", recordStats.SkippedAircraftId)
+	fmt.Fprintf(os.Stderr, "  Skipped Hexid: %d\n", recordStats.SkippedHexid)
+	fmt.Fprintf(os.Stderr, "  Skipped UpdateType: %d\n", recordStats.SkippedUpdateType)
+	fmt.Fprintf(os.Stderr, "  Skipped Geometric: %d\n", recordStats.SkippedGeometric)
+	fmt.Fprintf(os.Stderr, "  Skipped Temporal: %d\n", recordStats.SkippedTemporal)
 }
 
 // Starts here
@@ -88,6 +111,5 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Error reading %v", flag.Arg(i))
 		}
 	}
-	fmt.Printf("Skipped AircraftId: %v\n", recordStats.SkippedAircraftId)
-	fmt.Printf("Skipped Hexid: %v\n", recordStats.SkippedHexid)
+	printStats()
 }
