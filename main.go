@@ -101,7 +101,16 @@ func main() {
 		fhOut = os.Stdout
 	}
 
-	for i := 0; i < len(string(flag.Arg(i))); i++ {
+	if fVerbose {
+		if fAircraftId != "" {
+			fmt.Fprintln(os.Stderr, "Filtering on AircraftId "+fAircraftId)
+		}
+		if fHexid != "" {
+			fmt.Fprintln(os.Stderr, "Filtering on HexId "+fHexid)
+		}
+	}
+	readFiles = len(flag.Args())
+	for i := 0; i < readFiles; i++ {
 		if fVerbose {
 			fmt.Fprintf(os.Stderr, "Reading %v…\n", flag.Arg(i))
 		}
