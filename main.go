@@ -39,6 +39,7 @@ func processFile(file string, out *os.File) error {
 
 		s_line := []byte(line)
 		if err := json.Unmarshal(s_line, &record); err != nil {
+			recordStats.TotalSkipped++
 			return err
 		}
 
