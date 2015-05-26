@@ -19,6 +19,8 @@ import (
 var (
 	timeStats	TimeStats
 	recordStats	RecordStats
+	goodFileStats	int
+	badFileStats	int
 
 	fhOut	*os.File
 )
@@ -27,6 +29,7 @@ var (
 func processFile(file string, out *os.File) error {
 	fh, err := os.Open(file)
 	scanner := bufio.NewScanner(fh)
+
 	for scanner.Scan() {
 		// each line is a json record
 		line := scanner.Text()
@@ -35,17 +38,18 @@ func processFile(file string, out *os.File) error {
 
 		// must convert to []byte before handing over to json.Unmarshal
 		s_line := []byte(line)
-		err := json.Unmarshal(s_line, &record)
-		if err != nil {
+		if err := json.Unmarshal(s_line, &record); err != nil {
 			return err
 		}
+
 		// handover to our checkRecord
-		good :=  record.checkRecord()
-		if good {
+		if good :=  record.checkRecord(); good {
+			goodFileStats++
 			_, err = fmt.Fprintf(out, "%s\n", line)
 		}
 
 		if err != nil {
+			badFileStats++
 			return err
 		}
 	}
