@@ -35,7 +35,7 @@ func (line *FArecord) checkRecord() bool {
 		}
 	}
 
-	return false
+	return true
 
 	if line.Type == "position" {
 		if line.Clock != "" {
