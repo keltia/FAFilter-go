@@ -43,8 +43,8 @@ var Usage = func() {
 // called by flag.Parse()
 func init() {
 	// cli
-	flag.StringVar(&fStartTime, "b", "", "Start time")
-	flag.StringVar(&fEndTime, "e", "", "End time")
+	flag.StringVar(&fStartTime, "b", "2001-01-01 00:00:00", "Start time")
+	flag.StringVar(&fEndTime, "e", "2038-01-01 00:00:00", "End time")
 	flag.StringVar(&fFileOut, "o", "", "Output into file")
 	flag.BoolVar(&fVerbose, "v", false, "Be verbose")
 
