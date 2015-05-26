@@ -30,12 +30,13 @@ func processFile(file string, out *os.File) error {
 	scanner := bufio.NewScanner(fh)
 
 	for scanner.Scan() {
-		// each line is a json record
+		// Get current line
 		line := scanner.Text()
 
+		// each line is a json record
+		// must convert to []byte before handing over to json.Unmarshal
 		var record FArecord
 
-		// must convert to []byte before handing over to json.Unmarshal
 		s_line := []byte(line)
 		if err := json.Unmarshal(s_line, &record); err != nil {
 			return err
