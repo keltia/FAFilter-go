@@ -3,13 +3,40 @@ package main
 import (
 	"time"
 	"fmt"
+	"regexp"
 )
 
-// Implements main conversion
-func (line *FArecord) checkRecord() (bool, error) {
+// Generic regex-based check
+func checkRegex(value string, regex regexp.Regexp) bool {
+	return regex.Match([]byte(value))
+}
+
+// Implements main checks
+//
+// Having several parameters specified on the CLI means AND, not OR because
+// we only break on false matches. As long as we match, we keep on.
+func (line *FArecord) checkRecord() bool {
+	var cont		bool
 	var myTimestamp time.Time
 
-	return true, nil
+	if fAircraftId != "" {
+		cont = checkRegex(line.Ident, rAircraftId)
+		if cont == false {
+			recordStats.SkippedAircraftId++
+			return cont
+		}
+	}
+
+	if fHexid != "" {
+		cont = checkRegex(line.Hexid, rHexid)
+		if cont == false {
+			recordStats.SkippedHexid++
+			return cont
+		}
+	}
+
+	return false
+
 	if line.Type == "position" {
 		if line.Clock != "" {
 			var value int64
@@ -39,6 +66,6 @@ func (line *FArecord) checkRecord() (bool, error) {
 
 		}
 	}
-	return true, nil
+	return true
 }
 

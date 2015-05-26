@@ -40,7 +40,7 @@ func processFile(file string, out *os.File) error {
 			return err
 		}
 		// handover to our checkRecord
-		good, err :=  record.checkRecord()
+		good :=  record.checkRecord()
 		if err != nil {
 			return err
 		}
