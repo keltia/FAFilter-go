@@ -4,6 +4,11 @@
 
 package main
 
+// Implement XOR for bool
+func xor(a, b bool) bool {
+	return a != b
+}
+
 // Code rewritten in Go from http://alienryderflex.com/polygon/
 //
 //  The function will return true if the point x,y is inside the polygon, or
