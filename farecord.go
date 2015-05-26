@@ -74,7 +74,9 @@ func (line *FArecord) checkRecord() bool {
 			}
 		}
 
-	} // position
+	} else {
+		return false
+	}// position
 
 	// fallthrough
 	return true
