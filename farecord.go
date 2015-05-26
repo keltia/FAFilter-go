@@ -4,6 +4,7 @@ import (
 	"time"
 	"fmt"
 	"regexp"
+	"os"
 )
 
 // Generic regex-based check
