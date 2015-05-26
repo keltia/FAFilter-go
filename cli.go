@@ -21,6 +21,7 @@ var (
 	rAircraftId	regexp.Regexp
 	rHexid		regexp.Regexp
 	fUpdateType	string
+	rUpdateType	regexp.Regexp
 
 	fVerbose	bool
 )
@@ -28,7 +29,7 @@ var (
 // my usage string
 const (
 	cliUsage	= `
-Usage: %s [-o file] [-b time -e time] [-a reg|-x reg|-t TYPE] [-v] files...
+Usage: %s [-o file] [-b time -e time] [-a regex|-x regex|-t regex] [-v] files...
 `
 )
 
@@ -44,17 +45,21 @@ func init() {
 	flag.StringVar(&fStartTime, "b", "", "Start time")
 	flag.StringVar(&fEndTime, "e", "", "End time")
 	flag.StringVar(&fFileOut, "o", "", "Output into file")
-	flag.StringVar(&fUpdateType, "t", "", "Update type filter")
 	flag.BoolVar(&fVerbose, "v", false, "Be verbose")
 
 	//Treat these differently
 	flag.StringVar(&fAircraftId, "a", "", "AircraftId regexp")
 	flag.StringVar(&fHexid, "x", "", "Hexid regexp")
+	flag.StringVar(&fUpdateType, "t", "", "Update type regex")
 
+	// Compile and check, if a given regex is invalid, panic()
 	if (fAircraftId != "") {
 		rAircraftId = *regexp.MustCompile(fAircraftId)
 	}
 	if (fHexid != "") {
 		rHexid = *regexp.MustCompile(fHexid)
+	}
+	if fUpdateType != "" {
+		rUpdateType = *regexp.MustCompile(fUpdateType)
 	}
 }
