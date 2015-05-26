@@ -19,6 +19,7 @@ func (line *FArecord) checkRecord() bool {
 	var cont		bool
 	var myTimestamp time.Time
 
+	// Check for -a
 	if fAircraftId != "" {
 		cont = checkRegex(line.Ident, rAircraftId)
 		if cont == false {
@@ -27,6 +28,7 @@ func (line *FArecord) checkRecord() bool {
 		}
 	}
 
+	// Check for -x
 	if fHexid != "" {
 		cont = checkRegex(line.Hexid, rHexid)
 		if cont == false {
