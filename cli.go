@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"regexp"
 )
 
 var (
@@ -15,8 +16,10 @@ var (
 	fStartTime	string
 	fEndTime	string
 	fFileOut	string
-	fAircraftId	string
-	fHexid		string
+ 	fAircraftId	string
+	fHexid 		string
+	rAircraftId	regexp.Regexp
+	rHexid		regexp.Regexp
 	fUpdateType	string
 
 	fVerbose	bool
@@ -41,10 +44,17 @@ func init() {
 	flag.StringVar(&fStartTime, "b", "", "Start time")
 	flag.StringVar(&fEndTime, "e", "", "End time")
 	flag.StringVar(&fFileOut, "o", "", "Output into file")
-	flag.StringVar(&fAircraftId, "a", "", "AircraftId regexp")
-	flag.StringVar(&fHexid, "x", "", "Hexid regexp")
 	flag.StringVar(&fUpdateType, "t", "", "Update type filter")
-
 	flag.BoolVar(&fVerbose, "v", false, "Be verbose")
 
+	//Treat these differently
+	flag.StringVar(&fAircraftId, "a", "", "AircraftId regexp")
+	flag.StringVar(&fHexid, "x", "", "Hexid regexp")
+
+	if (fAircraftId != "") {
+		rAircraftId = *regexp.MustCompile(fAircraftId)
+	}
+	if (fHexid != "") {
+		rHexid = *regexp.MustCompile(fHexid)
+	}
 }
