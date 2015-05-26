@@ -40,6 +40,8 @@ type TimeStats struct {
 }
 
 type RecordStats struct {
+	TotalRead			int
+	TotalSkipped		int
 	SkippedTemporal		int
 	SkippedGeometric	int
 	SkippedAircraftId	int
