@@ -67,7 +67,7 @@ func (line *FArecord) checkRecord() bool {
 			cont, _ := regexp.MatchString(fUpdateType, line.UpdateType)
 			if cont == false {
 				recordStats.SkippedUpdateType++
-				return false
+				return cont
 			}
 		}
 
