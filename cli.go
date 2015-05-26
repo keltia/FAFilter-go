@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"time"
 )
 
 var (
@@ -19,11 +20,10 @@ var (
  	fAircraftId	string
 	fHexid 		string
 	fUpdateType	string
-	rAircraftId	regexp.Regexp
-	rHexid		regexp.Regexp
-	rUpdateType	regexp.Regexp
-
 	fVerbose	bool
+
+	tsStart		time.Time
+	tsEnd		time.Time
 )
 
 // my usage string
@@ -31,6 +31,7 @@ const (
 	cliUsage	= `
 Usage: %s [-o file] [-b time -e time] [-a regex|-x regex|-t regex] [-v] files...
 `
+	TIMEFMT = "2006-01-02 15:04:05"
 )
 
 // Redefine Usage
@@ -54,12 +55,26 @@ func init() {
 
 	// Compile and check, if a given regex is invalid, panic()
 	if (fAircraftId != "") {
-		rAircraftId = *regexp.MustCompile(fAircraftId)
+		_ = *regexp.MustCompile(fAircraftId)
 	}
 	if (fHexid != "") {
-		rHexid = *regexp.MustCompile(fHexid)
+		_ = *regexp.MustCompile(fHexid)
 	}
 	if fUpdateType != "" {
-		rUpdateType = *regexp.MustCompile(fUpdateType)
+		_ = *regexp.MustCompile(fUpdateType)
 	}
+
+	var err  error
+
+	// Check dates
+	tsStart, err = time.Parse(TIMEFMT, fStartTime)
+	if err != nil {
+		fmt.Println(err)
+		tsStart = time.Now()
+	}
+	tsEnd, err = time.Parse(TIMEFMT, fEndTime)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 }
