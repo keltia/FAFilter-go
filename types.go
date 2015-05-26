@@ -1,6 +1,9 @@
 // types.go
 //
 // All new types needed for FAFilter
+//
+// Copyright 2015 © by Ollivier Robert for the EEC
+//
 
 package main
 

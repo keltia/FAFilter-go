@@ -1,6 +1,9 @@
 // location.go
 //
 // Location related methods/functions
+//
+// Copyright 2015 © by Ollivier Robert for the EEC
+//
 
 package main
 

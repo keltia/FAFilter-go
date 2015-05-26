@@ -1,6 +1,9 @@
 // cli.go
 //
 // Everything related to command-line flag handling
+//
+// Copyright 2015 © by Ollivier Robert for the EEC
+//
 
 package main
 

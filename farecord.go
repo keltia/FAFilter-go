@@ -1,6 +1,9 @@
 // farecord.go
 //
 // Main processing on files
+//
+// Copyright 2015 © by Ollivier Robert for the EEC
+//
 
 package main
 

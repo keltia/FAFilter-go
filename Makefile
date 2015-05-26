@@ -1,4 +1,7 @@
 # Main Makefile for FAFilter
+#
+# Copyright 2015 © by Ollivier Robert for the EEC
+#
 
 DEST=   bin
 
