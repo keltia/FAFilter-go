@@ -41,9 +41,6 @@ func processFile(file string, out *os.File) error {
 		}
 		// handover to our checkRecord
 		good :=  record.checkRecord()
-		if err != nil {
-			return err
-		}
 		if good {
 			_, err = fmt.Fprintf(out, "%s\n", line)
 		}
