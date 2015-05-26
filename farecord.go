@@ -71,6 +71,16 @@ func (line *FArecord) checkRecord() bool {
 			}
 		}
 
+		// Everything has been checked
+		// fill in stats again
+		if myTimestamp.Before(timeStats.FirstSelected) {
+			timeStats.FirstSelected = myTimestamp
+		}
+		if myTimestamp.After(timeStats.LastSelected) {
+			timeStats.LastSelected = myTimestamp
+		}
+
+		return true
 	} else {
 		return false
 	}// position
