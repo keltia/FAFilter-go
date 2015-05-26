@@ -87,4 +87,6 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Error reading %v", flag.Arg(i))
 		}
 	}
+	fmt.Printf("Skipped AircraftId: %v\n", recordStats.SkippedAircraftId)
+	fmt.Printf("Skipped Hexid: %v\n", recordStats.SkippedHexid)
 }
