@@ -40,7 +40,7 @@ func (line *FArecord) checkRecord() bool {
 	// Check for -t
 	if fUpdateType != "" {
 		cont = checkRegex(line.UpdateType, rUpdateType)
-		if line.UpdateType != fUpdateType {
+		if cont == false {
 			recordStats.SkippedUpdateType++
 			return false
 		}
