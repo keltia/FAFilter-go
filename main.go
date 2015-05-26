@@ -45,13 +45,11 @@ func processFile(file string, out *os.File) error {
 		recordStats.TotalRead++
 		// handover to our checkRecord
 		if good :=  record.checkRecord(); good {
-			goodFileStats++
-			_, err = fmt.Fprintf(out, "%s\n", line)
-		}
-
-		if err != nil {
-			badFileStats++
-			return err
+			if _, err = fmt.Fprintf(out, "%s\n", line); err != nil {
+				fmt.Fprintf(os.Stderr, "Error writing into %s: %v", fFileOut, err)
+			}
+		} else {
+			recordStats.TotalSkipped++
 		}
 	}
 
