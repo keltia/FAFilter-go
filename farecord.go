@@ -20,8 +20,10 @@ func (line *FArecord) checkRecord() bool {
 			var value int64
 
 			if _, err := fmt.Sscanf(line.Clock, "%d", &value); err != nil {
-				myTimestamp = time.Unix(value, 0)
+				fmt.Fprintf(os.Stderr, "Invalid value %d\n", value)
 			}
+			myTimestamp = time.Unix(value, 0)
+
 			// gather stats
 			if (timeStats.FirstSeen == time.Time{}) {
 				timeStats.FirstSeen = myTimestamp
