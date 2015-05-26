@@ -37,6 +37,15 @@ func (line *FArecord) checkRecord() bool {
 		}
 	}
 
+	// Check for -t
+	if fUpdateType != "" {
+		if line.UpdateType != fUpdateType {
+			recordStats.SkippedUpdateType++
+			return false
+		}
+	}
+	
+	// fallthrough
 	return true
 
 	if line.Type == "position" {
