@@ -9,51 +9,51 @@
 package main
 
 import (
+	"bufio"
 	"flag"
-	"time"
 	"fmt"
 	"os"
+	"encoding/json"
 )
 
 var (
 	timeStats	TimeStats
 	recordStats	RecordStats
+
+	fhOut	*os.File
 )
 
-// Implements main conversion
-func (line *FArecord) checkRecord() (FArecord, error) {
-	var myTimestamp time.Time
+// Process one file at a time
+func processFile(file string, out *os.File) error {
+	fh, err := os.Open(file)
+	scanner := bufio.NewScanner(fh)
+	for scanner.Scan() {
+		// each line is a json record
+		line := scanner.Text()
 
-	if line.Type == "position" {
-		if line.Clock != "" {
-			var value int64
+		var record FArecord
 
-			if _, err := fmt.Sscanf(line.Clock, "%d", &value); err != nil {
-				myTimestamp = time.Unix(value, 0)
-			}
-			// gather stats
-			if (timeStats.FirstSeen == time.Time{}) {
-				timeStats.FirstSeen = myTimestamp
-			}
-			timeStats.LastSeen = myTimestamp
+		// must convert to []byte before handing over to json.Unmarshal
+		s_line := []byte(line)
+		err := json.Unmarshal(s_line, &record)
+		if err != nil {
+			return err
+		}
+		// handover to our checkRecord
+		good, err :=  record.checkRecord()
+		if err != nil {
+			return err
+		}
+		if good {
+			_, err = fmt.Fprintf(out, "%s\n", line)
+		}
 
-			if (timeStats.Lowest == time.Time{}) {
-				timeStats.Lowest = myTimestamp
-				timeStats.Highest = myTimestamp
-			} else {
-				// check lowest/highest
-				if myTimestamp.Before(timeStats.Lowest) {
-					timeStats.Lowest = myTimestamp
-				}
-				if myTimestamp.After(timeStats.Highest) {
-					timeStats.Highest = myTimestamp
-				}
-			}
-
-
+		if err != nil {
+			return err
 		}
 	}
-	return *line, nil
+
+	return err
 }
 
 // Starts here
@@ -68,5 +68,23 @@ func main() {
 	// Remaining arguments are in flag.Args()
 	if fVerbose {
 		fmt.Printf("%v\n", flag.Args())
+	}
+
+	var err error
+
+	if fFileOut != "" {
+		fhOut, err = os.Create(fFileOut)
+	} else {
+		fhOut = os.Stdout
+	}
+
+	for i := 0; i < len(string(flag.Arg(i))); i++ {
+		if fVerbose {
+			fmt.Fprintf(os.Stderr, "Reading %v…\n", flag.Arg(i))
+		}
+		err = processFile(flag.Arg(i), fhOut)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error reading %v", flag.Arg(i))
+		}
 	}
 }
