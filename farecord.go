@@ -1,3 +1,7 @@
+// farecord.go
+//
+// Main processing on files
+
 package main
 
 import (
