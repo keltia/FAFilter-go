@@ -12,7 +12,6 @@ import (
 // Having several parameters specified on the CLI means AND, not OR because
 // we only break on false matches. As long as we match, we keep on.
 func (line *FArecord) checkRecord() bool {
-	var cont		bool
 	var myTimestamp time.Time
 
 	if line.Type == "position" {
