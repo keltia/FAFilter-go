@@ -98,7 +98,10 @@ func main() {
 	var err error
 
 	if fFileOut != "" {
-		fhOut, err = os.Create(fFileOut)
+		if fhOut, err = os.Create(fFileOut); err != nil {
+			fmt.Fprintf(os.Stderr, "Error creating %s\n", fFileOut)
+			panic(err)
+		}
 	} else {
 		fhOut = os.Stdout
 	}
