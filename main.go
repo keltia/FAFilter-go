@@ -21,6 +21,8 @@ var (
 	recordStats	RecordStats
 	readFiles	int
 
+	Polygon		[]Location
+
 	fhOut	*os.File
 )
 
