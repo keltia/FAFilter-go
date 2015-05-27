@@ -70,6 +70,7 @@ func processFile(file string, out *os.File) error {
 func printStats() {
 	fmt.Fprintf(os.Stderr, "\n%d files read\n", readFiles)
 	fmt.Fprintf(os.Stderr, "Lines read: %d\n", recordStats.TotalRead)
+	fmt.Fprintf(os.Stderr, "Lines selected: %d\n", recordStats.TotalRead - recordStats.TotalSkipped)
 	fmt.Fprintf(os.Stderr, "Lines skipped: %d\n", recordStats.TotalSkipped)
 
 	fmt.Fprintf(os.Stderr, "\nTime-related stats:\n")
