@@ -62,7 +62,8 @@ func processFile(file string, out *os.File) error {
 		}
 	}
 
-	return err
+	// Everything went properly
+	return nil
 }
 
 //Print our stats
