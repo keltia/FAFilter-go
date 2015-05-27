@@ -28,6 +28,9 @@ var (
 
 // Process one file at a time
 func processFile(file string, out *os.File) error {
+	//
+	// Prepare to read
+	//
 	fh, err := os.Open(file)
 	scanner := bufio.NewScanner(fh)
 
@@ -45,7 +48,9 @@ func processFile(file string, out *os.File) error {
 			return err
 		}
 
+		// Record one more
 		recordStats.TotalRead++
+
 		// handover to our checkRecord
 		if good :=  record.checkRecord(); good {
 			if _, err = fmt.Fprintf(out, "%s\n", line); err != nil {
