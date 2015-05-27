@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"regexp"
 	"os"
+	"strconv"
 )
 
 // Implements main checks
@@ -75,6 +76,19 @@ func (line *FArecord) checkRecord() bool {
 			if cont == false {
 				recordStats.SkippedUpdateType++
 				return cont
+			}
+		}
+
+		// Check for -g
+		if line.Lat != "" && line.Lon != "" && fGeoFile != "" {
+			myLat, _ := strconv.ParseFloat(line.Lat, 64)
+			myLon, _ := strconv.ParseFloat(line.Lon, 64)
+			myLocation := Location{myLat, myLon}
+			if len(Polygon) > 0 {
+				if !myLocation.pointInPolygon(Polygon) {
+					recordStats.SkippedGeometric++
+					return false
+				}
 			}
 		}
 
