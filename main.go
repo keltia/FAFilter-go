@@ -115,13 +115,13 @@ func main() {
 		}
 	}
 	readFiles = len(flag.Args())
-	for i := 0; i < readFiles; i++ {
+	for _, file := range flag.Args() {
 		if fVerbose {
-			fmt.Fprintf(os.Stderr, "Reading %v…\n", flag.Arg(i))
+			fmt.Fprintf(os.Stderr, "Reading %v…\n", file)
 		}
-		err = processFile(flag.Arg(i), fhOut)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error reading %v", flag.Arg(i))
+
+		if err := processFile(file, fhOut); err != nil {
+			fmt.Fprintf(os.Stderr, "Error reading %v", file)
 		}
 	}
 	printStats()
