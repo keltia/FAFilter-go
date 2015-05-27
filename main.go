@@ -114,6 +114,19 @@ func main() {
 			fmt.Fprintln(os.Stderr, "Filtering on HexId "+fHexid)
 		}
 	}
+
+	if fGeoFile != "" {
+		if fVerbose {
+			fmt.Fprintln(os.Stderr, "Filtering on area in "+fGeoFile)
+		}
+		if Polygon, err = loadGeoFile(fGeoFile); err != nil {
+			fmt.Fprintf(os.Stderr, "Error: can't read %s, ignoring…\n", fGeoFile)
+			Polygon = nil
+			fGeoFile = ""
+		}
+	}
+
+	// Process all files
 	readFiles = len(flag.Args())
 	for _, file := range flag.Args() {
 		if fVerbose {

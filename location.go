@@ -7,6 +7,13 @@
 
 package main
 
+import (
+	"bufio"
+	"os"
+	"strings"
+	"strconv"
+)
+
 // Implement XOR for bool
 func xor(a, b bool) bool {
 	return a != b
@@ -39,4 +46,29 @@ func (loc *Location) pointInPolygon(zone []Location) bool {
 		}
 	}
 	return oddNodes
+}
+
+// Load a geofile containing a polygon.
+// It is expected to be closed so check that first == last
+func loadGeoFile(file string) ([]Location, error) {
+	var plist []Location
+	//
+	// Prepare to read
+	//
+	fh, err := os.Open(file)
+	if err != nil {
+		return nil, err
+	}
+	scanner := bufio.NewScanner(fh)
+	for scanner.Scan() {
+		// Get current line
+		line := scanner.Text()
+
+		tuple := strings.Fields(line)
+		point := new(Location)
+		point.Latitude, err = strconv.ParseFloat(tuple[0], 64)
+		point.Longitude, err = strconv.ParseFloat(tuple[1], 64)
+		plist = append(plist, *point)
+	}
+	return plist, nil
 }

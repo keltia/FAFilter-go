@@ -23,6 +23,7 @@ var (
  	fAircraftId	string
 	fHexid 		string
 	fUpdateType	string
+	fGeoFile	string
 	fVerbose	bool
 
 	tsStart		time.Time
@@ -51,7 +52,10 @@ func init() {
 	flag.StringVar(&fFileOut, "o", "", "Output into file")
 	flag.BoolVar(&fVerbose, "v", false, "Be verbose")
 
-	//Treat these differently
+	// That one is special
+	flag.StringVar(&fGeoFile, "g", "", "Geofile for specific area")
+
+	// Treat these differently
 	flag.StringVar(&fAircraftId, "a", "", "AircraftId regexp")
 	flag.StringVar(&fHexid, "x", "", "Hexid regexp")
 	flag.StringVar(&fUpdateType, "t", "", "Update type regex")
