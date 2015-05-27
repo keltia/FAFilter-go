@@ -51,8 +51,6 @@ func init() {
 	flag.StringVar(&fEndTime, "e", "2038-01-01 00:00:00", "End time")
 	flag.StringVar(&fFileOut, "o", "", "Output into file")
 	flag.BoolVar(&fVerbose, "v", false, "Be verbose")
-
-	// That one is special
 	flag.StringVar(&fGeoFile, "g", "", "Geofile for specific area")
 
 	// Treat these differently
@@ -83,5 +81,4 @@ func init() {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 }
