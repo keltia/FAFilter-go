@@ -94,12 +94,10 @@ func (line *FArecord) checkRecord() bool {
 
 		// Everything has been checked
 		// fill in stats again
-		if myTimestamp.Before(timeStats.FirstSelected) {
+		if (timeStats.FirstSelected == time.Time{}) {
 			timeStats.FirstSelected = myTimestamp
 		}
-		if myTimestamp.After(timeStats.LastSelected) {
-			timeStats.LastSelected = myTimestamp
-		}
+		timeStats.LastSelected = myTimestamp
 
 		return true
 	} else {
