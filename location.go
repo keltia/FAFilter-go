@@ -78,3 +78,8 @@ func loadGeoFile(file string) (Polygon, error) {
 func (p *Polygon) checkComplete() bool {
 	return p.P[0] == p.P[len(p.P) - 1]
 }
+
+// Return number of points in polygon
+func (p *Polygon) len() int {
+	return len(p.P)
+}
