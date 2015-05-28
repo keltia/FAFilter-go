@@ -80,15 +80,26 @@ func (line *FArecord) checkRecord() bool {
 		}
 
 		// Check for -g
+		var found	bool = false
+
 		if line.Lat != "" && line.Lon != "" && fGeoFile != "" {
 			myLat, _ := strconv.ParseFloat(line.Lat, 64)
 			myLon, _ := strconv.ParseFloat(line.Lon, 64)
 			myLocation := Location{myLat, myLon}
-			if len(Polygon) > 0 {
-				if !myLocation.pointInPolygon(Polygon) {
-					recordStats.SkippedGeometric++
-					return false
+			//
+			// Look at all polygons stored in polygonList
+			//
+			for _, polygon := range polygonList {
+				if len(polygon.P) > 0 {
+					if myLocation.pointInPolygon(polygon.P) {
+						found = true
+						break
+					}
 				}
+			}
+			if !found {
+				recordStats.SkippedGeometric++
+				return false
 			}
 		}
 
