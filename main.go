@@ -105,6 +105,7 @@ func checkGeoFile() {
 		// Load all files, possibly only one
 		//
 		for _, file := range gFileList {
+			var err 	error
 			var polygon Polygon
 
 			if fVerbose {
