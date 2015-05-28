@@ -51,3 +51,7 @@ type RecordStats struct {
 	SkippedHexid		int
 	SkippedUpdateType	int
 }
+
+type Polygon struct {
+	P		[]Location
+}
