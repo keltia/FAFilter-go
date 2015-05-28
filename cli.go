@@ -13,6 +13,7 @@ import (
 	"os"
 	"regexp"
 	"time"
+	"strings"
 )
 
 var (
@@ -24,6 +25,7 @@ var (
 	fHexid 		string
 	fUpdateType	string
 	fGeoFile	string
+	gFileList	[]string
 	fVerbose	bool
 
 	tsStart		time.Time
@@ -33,7 +35,7 @@ var (
 // my usage string
 const (
 	cliUsage	= `
-Usage: %s [-o file] [-b time -e time] [-a regex|-x regex|-t regex] [-v] files...
+Usage: %s [-o file] [-b time -e time] [-a regex|-x regex|-t regex] [-v] [-g f1,f2,...] files...
 `
 	TIMEFMT = "2006-01-02 15:04:05"
 )
@@ -80,5 +82,13 @@ func init() {
 	tsEnd, err = time.Parse(TIMEFMT, fEndTime)
 	if err != nil {
 		fmt.Println(err)
+	}
+
+	// check -g value
+	if fGeoFile != "" {
+		if fVerbose {
+			fmt.Fprintf(os.Stderr, "Using multiple files for -g: %v", gFileList)
+		}
+		gFileList = strings.Split(fGeoFile, ",")
 	}
 }

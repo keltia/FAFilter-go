@@ -50,14 +50,14 @@ func (loc *Location) pointInPolygon(zone []Location) bool {
 
 // Load a geofile containing a polygon.
 // It is expected to be closed so check that first == last
-func loadGeoFile(file string) ([]Location, error) {
-	var plist []Location
+func loadGeoFile(file string) (Polygon, error) {
+	var plist Polygon
 	//
 	// Prepare to read
 	//
 	fh, err := os.Open(file)
 	if err != nil {
-		return nil, err
+		return Polygon{}, err
 	}
 	scanner := bufio.NewScanner(fh)
 	for scanner.Scan() {

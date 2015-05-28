@@ -21,7 +21,7 @@ var (
 	recordStats	RecordStats
 	readFiles	int
 
-	Polygon		[]Location
+	polygonList    []Polygon
 
 	fhOut	*os.File
 )
@@ -128,10 +128,17 @@ func main() {
 		if fVerbose {
 			fmt.Fprintln(os.Stderr, "Filtering on area in "+fGeoFile)
 		}
-		if Polygon, err = loadGeoFile(fGeoFile); err != nil {
-			fmt.Fprintf(os.Stderr, "Error: can't read %s, ignoring…\n", fGeoFile)
-			Polygon = nil
-			fGeoFile = ""
+		// Load all files, possibly only one
+		//
+		for _, file := range gFileList {
+			var polygon Polygon
+
+			if polygon, err = loadGeoFile(file); err != nil {
+				fmt.Fprintf(os.Stderr, "Error: can't read %s, ignoring…\n", file)
+				polygon = Polygon{}
+				fGeoFile = ""
+			}
+			polygonList = append(polygonList, polygon)
 		}
 	}
 
