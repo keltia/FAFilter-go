@@ -68,7 +68,7 @@ func loadGeoFile(file string) (Polygon, error) {
 		point := new(Location)
 		point.Latitude, err = strconv.ParseFloat(tuple[0], 64)
 		point.Longitude, err = strconv.ParseFloat(tuple[1], 64)
-		plist = append(plist, *point)
+		plist.P = append(plist.P, *point)
 	}
 	return plist, nil
 }
