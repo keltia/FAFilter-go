@@ -13,7 +13,6 @@ import (
 	"os"
 	"regexp"
 	"time"
-	"strings"
 )
 
 var (
@@ -82,13 +81,5 @@ func init() {
 	tsEnd, err = time.Parse(TIMEFMT, fEndTime)
 	if err != nil {
 		fmt.Println(err)
-	}
-
-	// check -g value
-	if fGeoFile != "" {
-		if fVerbose {
-			fmt.Fprintf(os.Stderr, "Using multiple files for -g: %v", gFileList)
-		}
-		gFileList = strings.Split(fGeoFile, ",")
 	}
 }

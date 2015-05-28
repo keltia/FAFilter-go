@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"os"
 	"encoding/json"
+	"strings"
 )
 
 var (
@@ -90,6 +91,41 @@ func printStats() {
 	fmt.Fprintf(os.Stderr, "  Skipped Temporal: %d\n", recordStats.SkippedTemporal)
 }
 
+func checkGeoFile() {
+	if fGeoFile != "" {
+		//
+		// check -g value for multiple files
+		//
+		gFileList = strings.Split(fGeoFile, ",")
+
+		if fVerbose {
+			fmt.Fprintf(os.Stderr, "Filtering on areas in %v\n", gFileList)
+		}
+		//
+		// Load all files, possibly only one
+		//
+		for _, file := range gFileList {
+			var polygon Polygon
+
+			if fVerbose {
+				fmt.Fprintf(os.Stderr, "  Loading %s… Checking: ", file)
+			}
+			if polygon, err = loadGeoFile(file); err != nil {
+				fmt.Fprintf(os.Stderr, "Error: can't read %s, ignoring…\n", file)
+				polygon = Polygon{}
+				fGeoFile = ""
+			}
+			// If polygon is complete, store it
+			if polygon.checkComplete() {
+				polygonList = append(polygonList, polygon)
+				if fVerbose {
+					fmt.Fprintf(os.Stderr, "✓ (%d points)\n", polygon.len() - 1)
+				}
+			}
+		}
+	}
+}
+
 // Starts here
 func main() {
 	flag.Usage = Usage
@@ -124,26 +160,7 @@ func main() {
 		}
 	}
 
-	if fGeoFile != "" {
-		if fVerbose {
-			fmt.Fprintln(os.Stderr, "Filtering on area in "+fGeoFile)
-		}
-		// Load all files, possibly only one
-		//
-		for _, file := range gFileList {
-			var polygon Polygon
-
-			if polygon, err = loadGeoFile(file); err != nil {
-				fmt.Fprintf(os.Stderr, "Error: can't read %s, ignoring…\n", file)
-				polygon = Polygon{}
-				fGeoFile = ""
-			}
-			// If polygon is complete, store it
-			if polygon.checkComplete() {
-				polygonList = append(polygonList, polygon)
-			}
-		}
-	}
+	checkGeoFile()
 
 	// Process all files
 	readFiles = len(flag.Args())
