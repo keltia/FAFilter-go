@@ -72,3 +72,9 @@ func loadGeoFile(file string) (Polygon, error) {
 	}
 	return plist, nil
 }
+
+// Check whether the polygon list is correct, 1st and last should
+// be the same
+func (p *Polygon) checkComplete() bool {
+	return p.P[0] == p.P[len(p.P) - 1]
+}

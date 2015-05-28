@@ -138,7 +138,10 @@ func main() {
 				polygon = Polygon{}
 				fGeoFile = ""
 			}
-			polygonList = append(polygonList, polygon)
+			// If polygon is complete, store it
+			if polygon.checkComplete() {
+				polygonList = append(polygonList, polygon)
+			}
 		}
 	}
 
