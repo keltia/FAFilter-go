@@ -4,6 +4,9 @@ DEST=   bin
 
 all:    ${DEST}/FAFilter
 
+install:
+	go install -v
+
 clean:
 	rm -f ${DEST}/FAFilter
 
