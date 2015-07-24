@@ -1,6 +1,9 @@
 // types.go
 //
 // All new types needed for FAFilter
+//
+// Copyright 2015 © by Ollivier Robert for the EEC
+//
 
 package main
 
@@ -40,9 +43,15 @@ type TimeStats struct {
 }
 
 type RecordStats struct {
+	TotalRead			int
+	TotalSkipped		int
 	SkippedTemporal		int
 	SkippedGeometric	int
 	SkippedAircraftId	int
 	SkippedHexid		int
 	SkippedUpdateType	int
+}
+
+type Polygon struct {
+	P		[]Location
 }

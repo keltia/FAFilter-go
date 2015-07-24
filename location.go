@@ -1,8 +1,23 @@
 // location.go
 //
 // Location related methods/functions
+//
+// Copyright 2015 © by Ollivier Robert for the EEC
+//
 
 package main
+
+import (
+	"bufio"
+	"os"
+	"strings"
+	"strconv"
+)
+
+// Implement XOR for bool
+func xor(a, b bool) bool {
+	return a != b
+}
 
 // Code rewritten in Go from http://alienryderflex.com/polygon/
 //
@@ -31,4 +46,40 @@ func (loc *Location) pointInPolygon(zone []Location) bool {
 		}
 	}
 	return oddNodes
+}
+
+// Load a geofile containing a polygon.
+// It is expected to be closed so check that first == last
+func loadGeoFile(file string) (Polygon, error) {
+	var plist Polygon
+	//
+	// Prepare to read
+	//
+	fh, err := os.Open(file)
+	if err != nil {
+		return Polygon{}, err
+	}
+	scanner := bufio.NewScanner(fh)
+	for scanner.Scan() {
+		// Get current line
+		line := scanner.Text()
+
+		tuple := strings.Fields(line)
+		point := new(Location)
+		point.Latitude, err = strconv.ParseFloat(tuple[0], 64)
+		point.Longitude, err = strconv.ParseFloat(tuple[1], 64)
+		plist.P = append(plist.P, *point)
+	}
+	return plist, nil
+}
+
+// Check whether the polygon list is correct, 1st and last should
+// be the same
+func (p *Polygon) checkComplete() bool {
+	return p.P[0] == p.P[len(p.P) - 1]
+}
+
+// Return number of points in polygon
+func (p *Polygon) len() int {
+	return len(p.P)
 }
