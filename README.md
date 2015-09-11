@@ -3,6 +3,12 @@
 This is the Go port of the FAFilter utility written in C#/WFC by J. Van Meenen for ECTL.
 All errors are mine, not Jan's.
 
+## Status
+
+*stable*
+[![Build Status](https://secure.travis-ci.org/keltia/FAFilter-go.png)](http://travis-ci.org/keltia/FAFilter-go)
+
+
 ## Goal
 
 To have a Go port that is more documented and readable and could serve as a foundation for
