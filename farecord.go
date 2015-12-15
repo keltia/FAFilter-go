@@ -30,6 +30,7 @@ func (line *FArecord) checkRecord() (valid bool) {
 
 			if _, err := fmt.Sscanf(line.Clock, "%d", &value); err != nil {
 				fmt.Fprintf(os.Stderr, "Invalid value %d\n", value)
+				return
 			}
 			myTimestamp = time.Unix(value, 0)
 
