@@ -28,10 +28,6 @@ func xor(a, b bool) bool {
 //  Note that division by zero is avoided because the division is protected
 //  by the "if" clause which surrounds it.
 func (loc *Location) pointInPolygon(zone []Location) bool {
-	if loc == nil {
-		return false
-	}
-
 	var i int
 
 	polySides := len(zone)
