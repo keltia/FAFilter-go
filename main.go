@@ -15,6 +15,7 @@ import (
 	"os"
 	"encoding/json"
 	"strings"
+	"path/filepath"
 )
 
 var (
@@ -131,6 +132,10 @@ func checkGeoFile() {
 func main() {
 	flag.Usage = Usage
 	flag.Parse()
+
+	if fVerbose {
+		fmt.Printf("%s version %s\n\n", filepath.Base(os.Args[0]), FAFILTER_VERSION)
+	}
 
 	if flag.Arg(0) == "" {
 		fmt.Fprintln(os.Stderr, "Error: you must specify files")
