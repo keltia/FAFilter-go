@@ -19,9 +19,10 @@ import (
 //
 // Having several parameters specified on the CLI means AND, not OR because
 // we only break on false matches. As long as we match, we keep on.
-func (line *FArecord) checkRecord() bool {
+func (line *FArecord) checkRecord() (valid bool) {
 	var myTimestamp time.Time
 
+	valid = false
 	if line.Type == "position" {
 		// Record timestamps
 		if line.Clock != "" {
@@ -54,34 +55,32 @@ func (line *FArecord) checkRecord() bool {
 
 		// Check for -a
 		if fAircraftId != "" {
-			cont, _ := regexp.MatchString(fAircraftId, line.Ident)
-			if cont == false {
+			valid, _ = regexp.MatchString(fAircraftId, line.Ident)
+			if !valid {
 				recordStats.SkippedAircraftId++
-				return cont
+				return
 			}
 		}
 
 		// Check for -x
 		if fHexid != "" {
-			cont, _ := regexp.MatchString(fHexid, line.Hexid)
-			if cont == false {
+			valid, _ = regexp.MatchString(fHexid, line.Hexid)
+			if !valid {
 				recordStats.SkippedHexid++
-				return cont
+				return
 			}
 		}
 
 		// Check for -t
 		if fUpdateType != "" {
-			cont, _ := regexp.MatchString(fUpdateType, line.UpdateType)
-			if cont == false {
+			valid, _ = regexp.MatchString(fUpdateType, line.UpdateType)
+			if !valid {
 				recordStats.SkippedUpdateType++
-				return cont
+				return
 			}
 		}
 
 		// Check for -g
-		var found	bool = false
-
 		if line.Lat != "" && line.Lon != "" && fGeoFile != "" {
 			myLat, _ := strconv.ParseFloat(line.Lat, 64)
 			myLon, _ := strconv.ParseFloat(line.Lon, 64)
@@ -92,14 +91,14 @@ func (line *FArecord) checkRecord() bool {
 			for _, polygon := range polygonList {
 				if len(polygon.P) > 0 {
 					if myLocation.pointInPolygon(polygon.P) {
-						found = true
+						valid = true
 						break
 					}
 				}
 			}
-			if !found {
+			if !valid {
 				recordStats.SkippedGeometric++
-				return false
+				return
 			}
 		}
 
@@ -109,13 +108,9 @@ func (line *FArecord) checkRecord() bool {
 			timeStats.FirstSelected = myTimestamp
 		}
 		timeStats.LastSelected = myTimestamp
-
-		return true
-	} else {
-		return false
-	}// position
-
-	// fallthrough
-	return true
+		valid = true
+	}
+	// !position
+	return
 }
 
