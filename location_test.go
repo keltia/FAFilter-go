@@ -32,7 +32,7 @@ func TestCheckComplete(t *testing.T) {
 	}
 
 	if data2.checkComplete() {
-		t.Errorf("Error loading polygon %v", data1)
+		t.Errorf("Error loading polygon %v", data2)
 	}
 }
 
