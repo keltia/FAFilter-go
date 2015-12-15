@@ -35,3 +35,15 @@ func TestCheckComplete(t *testing.T) {
 		t.Errorf("Error loading polygon %v", data1)
 	}
 }
+
+func TestPolygonLen(t *testing.T) {
+	mylen := data1.len()
+	if mylen != len(data1.P) {
+		t.Errorf("Error loading polygon %v, invalid length", data1, mylen)
+	}
+
+	mylen = data2.len()
+	if mylen != len(data2.P) {
+		t.Errorf("Error loading polygon %v, invalid length", data2, mylen)
+	}
+}
