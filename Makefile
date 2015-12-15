@@ -14,3 +14,11 @@ install:
 
 clean:
 	go clean -v
+
+push:
+	git push --all
+	git push --all upstream
+	git push --all backup
+	git push --tags
+	git push --tags upstream
+	git push --tags backup
