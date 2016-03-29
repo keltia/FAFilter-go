@@ -44,8 +44,8 @@ func processFile(file string, out *os.File) error {
 		// must convert to []byte before handing over to json.Unmarshal
 		var record FArecord
 
-		s_line := []byte(line)
-		if err := json.Unmarshal(s_line, &record); err != nil {
+		sLine := []byte(line)
+		if err := json.Unmarshal(sLine, &record); err != nil {
 			recordStats.TotalSkipped++
 			return err
 		}
@@ -85,7 +85,7 @@ func printStats() {
 	fmt.Fprintf(os.Stderr, "  Highest seen: %s\n", timeStats.Highest.String())
 
 	fmt.Fprintf(os.Stderr, "\nRecord-related stats:\n")
-	fmt.Fprintf(os.Stderr, "  Skipped AircraftId: %d\n", recordStats.SkippedAircraftId)
+	fmt.Fprintf(os.Stderr, "  Skipped AircraftId: %d\n", recordStats.SkippedAircraftID)
 	fmt.Fprintf(os.Stderr, "  Skipped Hexid: %d\n", recordStats.SkippedHexid)
 	fmt.Fprintf(os.Stderr, "  Skipped UpdateType: %d\n", recordStats.SkippedUpdateType)
 	fmt.Fprintf(os.Stderr, "  Skipped Geometric: %d\n", recordStats.SkippedGeometric)
@@ -134,7 +134,7 @@ func main() {
 	flag.Parse()
 
 	if fVerbose {
-		fmt.Printf("%s version %s\n\n", filepath.Base(os.Args[0]), FAFILTER_VERSION)
+		fmt.Printf("%s version %s\n\n", filepath.Base(os.Args[0]), FAFilterVersion)
 	}
 
 	if flag.Arg(0) == "" {
@@ -158,8 +158,8 @@ func main() {
 	}
 
 	if fVerbose {
-		if fAircraftId != "" {
-			fmt.Fprintln(os.Stderr, "Filtering on AircraftId "+fAircraftId)
+		if fAircraftID != "" {
+			fmt.Fprintln(os.Stderr, "Filtering on AircraftId "+ fAircraftID)
 		}
 		if fHexid != "" {
 			fmt.Fprintln(os.Stderr, "Filtering on HexId "+fHexid)

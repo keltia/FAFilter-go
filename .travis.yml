@@ -5,4 +5,5 @@ go:
 - tip
 branches:
   only:
+  - develop
   - master

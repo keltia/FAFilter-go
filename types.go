@@ -11,11 +11,13 @@ import (
 	"time"
 )
 
+// Location is the generic position
 type Location struct {
 	Latitude  float64
 	Longitude float64
 }
 
+// FArecord is the main type we are playing with
 type FArecord struct {
 	Type		string
 	AirGround	string
@@ -24,7 +26,7 @@ type FArecord struct {
 	Gs			string
 	Heading		string
 	Hexid		string
-	Id			string
+	ID			string
 	Ident		string
 	Lat			string
 	Lon			string
@@ -33,6 +35,7 @@ type FArecord struct {
 	UpdateType	string
 }
 
+// TimeStats is for recording time statistics for records
 type TimeStats struct {
 	FirstSeen		time.Time
 	LastSeen		time.Time
@@ -42,16 +45,18 @@ type TimeStats struct {
 	Highest	time.Time
 }
 
+// RecordStats is general statistics for our filtering
 type RecordStats struct {
 	TotalRead			int
 	TotalSkipped		int
 	SkippedTemporal		int
 	SkippedGeometric	int
-	SkippedAircraftId	int
+	SkippedAircraftID	int
 	SkippedHexid		int
 	SkippedUpdateType	int
 }
 
+// Polygon is a series of — hopefully — closed points
 type Polygon struct {
 	P		[]Location
 }

@@ -1,5 +1,6 @@
 package main
 
 const (
-	FAFILTER_VERSION = "1.0"
+	// FAFilterVersion is guess what?
+	FAFilterVersion = "1.0.1"
 )
