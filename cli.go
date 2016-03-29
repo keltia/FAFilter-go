@@ -20,7 +20,7 @@ var (
 	fStartTime	string
 	fEndTime	string
 	fFileOut	string
- 	fAircraftId	string
+ 	fAircraftID	string
 	fHexid 		string
 	fUpdateType	string
 	fGeoFile	string
@@ -39,7 +39,7 @@ Usage: %s [-o file] [-b time -e time] [-a regex|-x regex|-t regex] [-v] [-g f1,f
 	TIMEFMT = "2006-01-02 15:04:05"
 )
 
-// Redefine Usage
+// Usage is hooked up here
 var Usage = func() {
         fmt.Fprintf(os.Stderr, cliUsage, os.Args[0])
         flag.PrintDefaults()
@@ -55,13 +55,13 @@ func init() {
 	flag.StringVar(&fGeoFile, "g", "", "Geofile for specific area")
 
 	// Treat these differently
-	flag.StringVar(&fAircraftId, "a", "", "AircraftId regexp")
+	flag.StringVar(&fAircraftID, "a", "", "AircraftId regexp")
 	flag.StringVar(&fHexid, "x", "", "Hexid regexp")
 	flag.StringVar(&fUpdateType, "t", "", "Update type regex")
 
 	// Compile and check, if a given regex is invalid, panic()
-	if (fAircraftId != "") {
-		_ = *regexp.MustCompile(fAircraftId)
+	if (fAircraftID != "") {
+		_ = *regexp.MustCompile(fAircraftID)
 	}
 	if (fHexid != "") {
 		_ = *regexp.MustCompile(fHexid)

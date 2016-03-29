@@ -55,10 +55,10 @@ func (line *FArecord) checkRecord() (valid bool) {
 		}
 
 		// Check for -a
-		if fAircraftId != "" {
-			valid, _ = regexp.MatchString(fAircraftId, line.Ident)
+		if fAircraftID != "" {
+			valid, _ = regexp.MatchString(fAircraftID, line.Ident)
 			if !valid {
-				recordStats.SkippedAircraftId++
+				recordStats.SkippedAircraftID++
 				return
 			}
 		}
