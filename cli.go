@@ -39,7 +39,7 @@ Usage: %s [-o file] [-b time -e time] [-a regex|-x regex|-t regex] [-v] [-g f1,f
 	TIMEFMT = "2006-01-02 15:04:05"
 )
 
-// Redefine Usage
+// Usage is hooked up here
 var Usage = func() {
         fmt.Fprintf(os.Stderr, cliUsage, os.Args[0])
         flag.PrintDefaults()
