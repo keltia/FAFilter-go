@@ -44,8 +44,8 @@ func processFile(file string, out *os.File) error {
 		// must convert to []byte before handing over to json.Unmarshal
 		var record FArecord
 
-		s_line := []byte(line)
-		if err := json.Unmarshal(s_line, &record); err != nil {
+		sLine := []byte(line)
+		if err := json.Unmarshal(sLine, &record); err != nil {
 			recordStats.TotalSkipped++
 			return err
 		}
