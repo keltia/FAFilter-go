@@ -24,7 +24,7 @@ type FArecord struct {
 	Gs			string
 	Heading		string
 	Hexid		string
-	Id			string
+	ID			string
 	Ident		string
 	Lat			string
 	Lon			string
@@ -47,7 +47,7 @@ type RecordStats struct {
 	TotalSkipped		int
 	SkippedTemporal		int
 	SkippedGeometric	int
-	SkippedAircraftId	int
+	SkippedAircraftID	int
 	SkippedHexid		int
 	SkippedUpdateType	int
 }
