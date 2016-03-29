@@ -134,7 +134,7 @@ func main() {
 	flag.Parse()
 
 	if fVerbose {
-		fmt.Printf("%s version %s\n\n", filepath.Base(os.Args[0]), FAFILTER_VERSION)
+		fmt.Printf("%s version %s\n\n", filepath.Base(os.Args[0]), FAFilterVersion)
 	}
 
 	if flag.Arg(0) == "" {
